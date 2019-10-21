@@ -4,8 +4,8 @@ jobs:
     vmImage: 'Ubuntu 16.04'
   strategy:
     matrix:
-      Python36:
-        PYTHON_VERSION: '3.6'
+      Python35:
+        PYTHON_VERSION: '3.5'
 
   steps:
   - script: python3 -m pip install --upgrade pip setuptools --user
@@ -49,8 +49,8 @@ jobs:
     vmImage: 'macOS 10.13'
   strategy:
     matrix:
-      Python36:
-        PYTHON_VERSION: '3.6'
+      Python35:
+        PYTHON_VERSION: '3.5'
 
   steps:
   - script: python3 -m pip install --upgrade pip setuptools
