@@ -84,7 +84,10 @@ class SendMetrics(keras.callbacks.Callback):
         Run on end of each epoch
         '''
         LOG.debug(logs)
-        nni.report_intermediate_result(logs["val_acc"])
+        if 'val_acc' in logs:
+            nni.report_intermediate_result(logs['val_acc'])
+        else:
+            nni.report_intermediate_result(logs['val_accuracy'])
 
 def train(args, params):
     '''

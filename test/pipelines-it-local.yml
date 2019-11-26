@@ -5,7 +5,6 @@ jobs:
   - script: python3 -m pip install --upgrade pip setuptools --user
     displayName: 'Install python tools'
   - script: |
-      python3 -m pip install keras --upgrade --user
       source install.sh
     displayName: 'Install nni toolkit via source code'
   - script: |
