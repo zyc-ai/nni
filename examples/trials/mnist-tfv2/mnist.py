@@ -10,6 +10,7 @@ NNI example trial code.
 - Dataset: MNIST
 """
 
+import argparse
 import logging
 
 import tensorflow as tf
@@ -116,7 +117,7 @@ def main(params):
         x_train,
         y_train,
         batch_size=params['batch_size'],
-        epochs=10,
+        epochs=params['epochs'],
         verbose=0,
         callbacks=[ReportIntermediates()],
         validation_data=(x_test, y_test)
@@ -141,6 +142,11 @@ if __name__ == '__main__':
     # comment out following two lines to run the code without NNI framework
     tuned_params = nni.get_next_parameter()
     params.update(tuned_params)
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--epochs', type=int, default=10)
+    args, _ = parser.parse_known_args()
+    params.update(vars(args))
 
     _logger.info('Hyper-parameters: %s', params)
     main(params)

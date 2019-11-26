@@ -13,7 +13,7 @@ assessor:
     optimize_mode: maximize
 trial:
   codeDir: ../../../examples/trials/mnist-tfv2
-  command: python3 mnist.py
+  command: python3 mnist.py --epochs 1
   gpuNum: 0
 
 useAnnotation: false
