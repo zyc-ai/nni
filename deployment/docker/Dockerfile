@@ -61,7 +61,7 @@ RUN python3 -m pip --no-cache-dir install scikit-learn==0.21.3
 #
 # pandas lightgbm
 #
-RUN python3 -m pip --no-cache-dir install pandas==0.25.3 lightgbm==2.3.0
+RUN python3 -m pip --no-cache-dir install pandas==0.24.2 lightgbm==2.3.0
 
 #
 # Install NNI
