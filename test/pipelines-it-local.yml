@@ -18,7 +18,7 @@ jobs:
       sudo apt-get install swig -y
       PATH=$HOME/.local/bin:$PATH nnictl package install --name=SMAC
       PATH=$HOME/.local/bin:$PATH nnictl package install --name=BOHB
-      echo tensorflow-gpu $(python3 -m pip show tensorflow | grep Version)
+      echo tensorflow-gpu $(python3 -m pip show tensorflow-gpu | grep Version)
       echo keras $(python3 -m pip show keras | grep Version)
     displayName: 'Install dependencies for integration tests'
   - script: |
