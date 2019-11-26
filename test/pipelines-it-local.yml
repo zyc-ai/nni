@@ -5,6 +5,8 @@ jobs:
   - script: python3 -m pip install --upgrade pip setuptools --user
     displayName: 'Install python tools'
   - script: |
+      python3 -m pip install tensorflow-gpu --upgrade --user
+      python3 -m pip install keras --upgrade --user
       source install.sh
     displayName: 'Install nni toolkit via source code'
   - script: |
@@ -16,6 +18,8 @@ jobs:
       sudo apt-get install swig -y
       PATH=$HOME/.local/bin:$PATH nnictl package install --name=SMAC
       PATH=$HOME/.local/bin:$PATH nnictl package install --name=BOHB
+      echo tensorflow-gpu $(pip show tensorflow | grep Version)
+      echo keras $(pip show keras | grep Version)
     displayName: 'Install dependencies for integration tests'
   - script: |
       cd test
