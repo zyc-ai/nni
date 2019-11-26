@@ -23,6 +23,10 @@ jobs:
     displayName: 'Install dependencies for integration tests'
   - script: |
       cd test
+      PATH=$HOME/.local/bin:$PATH python3 config_test.py --ts local --local_gpu
+    displayName: 'Examples and advanced features tests on local machine'
+  - script: |
+      cd test
       source unittest.sh
     displayName: 'Unit test'
   - script: |
@@ -33,10 +37,6 @@ jobs:
       cd test
       PATH=$HOME/.local/bin:$PATH python3 tuner_test.py
     displayName: 'Built-in tuners / assessors tests'
-  - script: |
-      cd test
-      PATH=$HOME/.local/bin:$PATH python3 config_test.py --ts local --local_gpu
-    displayName: 'Examples and advanced features tests on local machine'
   - script: |
       cd test
       PATH=$HOME/.local/bin:$PATH python3 metrics_test.py
