@@ -329,6 +329,7 @@ class LocalTrainingService implements TrainingService {
         //if job is not running, destory job stream
         if (['SUCCEEDED', 'FAILED', 'USER_CANCELED', 'SYS_CANCELED', 'EARLY_STOPPED'].includes(trialJob.status)) {
             if (this.jobStreamMap.has(trialJob.id)) {
+                this.log.debug(`-------------332---stream destroy----${trialJob.id}`);
                 const stream: ts.Stream | undefined = this.jobStreamMap.get(trialJob.id);
                 if (stream === undefined) {
                     throw new Error(`Could not find stream in trial ${trialJob.id}`);
@@ -528,6 +529,7 @@ class LocalTrainingService implements TrainingService {
         let buffer: Buffer = Buffer.alloc(0);
         const stream: ts.Stream = ts.createReadStream(path.join(trialJobDetail.workingDirectory, '.nni', 'metrics'));
         stream.on('data', (data: Buffer) => {
+            this.log.debug(`-------------531---stream on data----${trialJobId}`);
             buffer = Buffer.concat([buffer, data]);
             while (buffer.length > 0) {
                 const [success, , content, remain] = decodeCommand(buffer);
