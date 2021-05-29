@@ -46,68 +46,72 @@ NNI 支持在 `AML <https://azure.microsoft.com/zh-cn/services/machine-learning/
 
 .. code-block:: yaml
 
-   authorName: default
    experimentName: example_mnist
+   searchSpaceFile: search_space.json
    trialConcurrency: 1
-   maxExecDuration: 1h
-   maxTrialNum: 10
-   trainingServicePlatform: aml
-   searchSpacePath: search_space.json
-   #choice: true, false
+   maxExperimentDuration: 1h
+   maxTrialNumber: 10
    useAnnotation: false
    tuner:
-     #choice: TPE, Random, Anneal, Evolution, BatchTuner, MetisTuner, GPTuner
-     #SMAC (SMAC should be installed through nnictl)
-     builtinTunerName: TPE
+     name: TPE
      classArgs:
-       #choice: maximize, minimize
        optimize_mode: maximize
-   trial:
-     command: python3 mnist.py
-     codeDir: .
-     image: msranni/nni
-     gpuNum: 1
-   amlConfig:
-     subscriptionId: ${replace_to_your_subscriptionId}
-     resourceGroup: ${replace_to_your_resourceGroup}
-     workspaceName: ${replace_to_your_workspaceName}
-     computeTarget: ${replace_to_your_computeTarget}
+   trialCommand: python3 mnist.py
+   trialCodeDirectory: .
+   trialGpuNumber: 1
+   trainingService:
+     platform: aml
+     subscription_id: ${replace_to_your_subscriptionId}
+     resource_group: ${replace_to_your_resourceGroup}
+     workspace_name: ${replace_to_your_workspaceName}
+     compute_target: ${replace_to_your_computeTarget}
+     docker_image: msranni/nni
+     max_trial_number_per_gpu: 1
+     use_active_gpu: False
+   sharedStorage:
+     storage_type: AzureBlob
+     storage_account_name: ${replace_to_your_storage_account_name}
+     container_name: ${replace_to_your_container_name}
+     storage_account_key: ${replace_to_your_storage_account_key}
+     local_mount_point: /mnt/data/
+     remote_mount_point: /tmp/data
+     local_mounted: usermount
 
-注意：如果用 aml 模式运行，需要在 YAML 文件中设置 ``trainingServicePlatform: aml`` 。
+注意：如果用 aml 模式运行，需要将 YAML 文件中的 ``trainingService`` 设置为 ``platform: aml`` 。
 
 与 `本机模式 <LocalMode.rst>`__ 的 Trial 配置相比，aml 模式下的键值还有：
 
 
-* image
+* docker_image
 
   * 必填。 作业中使用的 Docker 映像名称。 NNI 支持 ``msranni/nni`` 的映像来跑 jobs。
 
 .. Note:: 映像是基于 cuda 环境来打包的，可能并不适用于 aml 模式 CPU 集群。
 
-amlConfig:
+trainingService:
 
 
-* subscriptionId
+* subscription_id
 
   * 必填，Azure 订阅的 Id
 
-* resourceGroup
+* resource_group
 
   * 必填，Azure 订阅的资源组
 
-* workspaceName
+* workspace_name
 
   * 必填，Azure 订阅的工作空间
 
-* computeTarget
+* compute_target
 
   * 必填，要在 AML 工作区中使用的计算机集群名称。 `参考文档 <https://docs.microsoft.com/zh-cn/azure/machine-learning/concept-compute-target>`__ 了解步骤 6。
 
-* maxTrialNumPerGpu
+* max_trial_number_per_gpu
 
   * 可选，默认值为 1。 用于指定 GPU 设备上的最大并发 Trial 的数量。
 
-* useActiveGpu
+* use_active_gpu
 
   * 可选，默认为 false。 用于指定 GPU 上存在其他进程时是否使用此 GPU。 默认情况下，NNI 仅在 GPU 中没有其他活动进程时才使用 GPU。
 
